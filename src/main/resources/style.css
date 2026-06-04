@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: #fff7fb;
+}
+
+.titulo-principal {
+
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #d95d92;
+}
+
+.botao-principal {
+
+    -fx-background-color: #ff6fae;
+    -fx-text-fill: white;
+
+    -fx-background-radius: 20;
+
+    -fx-font-weight: bold;
+
+    -fx-padding: 10 20 10 20;
+}
+
+.botao-secundario {
+
+    -fx-background-color: #ffd6e7;
+
+    -fx-text-fill: #6b4c5c;
+
+    -fx-background-radius: 20;
+
+    -fx-font-weight: bold;
+
+    -fx-padding: 10 20 10 20;
+}
+
+.botao-remover {
+
+    -fx-background-color: #ff9cb8;
+
+    -fx-text-fill: white;
+
+    -fx-background-radius: 20;
+
+    -fx-font-weight: bold;
+
+    -fx-padding: 10 20 10 20;
+}

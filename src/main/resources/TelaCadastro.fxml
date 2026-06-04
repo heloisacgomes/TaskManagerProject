@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.mycompany.controller.TelaCadastroController"
+      spacing="10"
+      alignment="CENTER"
+      prefWidth="400"
+      style="-fx-padding: 5 0 5 0;">
+
+    <Label text= "Adicione uma tarefa"/>
+
+    <TextField fx:id="txtTitulo"
+               promptText="Título"/>
+
+    <TextArea fx:id="txtDescricao"
+              promptText="Descrição"/>
+    
+    <CheckBox fx:id="chkConcluida"
+          text="Concluída"/>
+
+    <Button text="Salvar"
+            onAction="#salvar"/>
+
+</VBox>
+
