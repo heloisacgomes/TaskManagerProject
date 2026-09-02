@@ -14,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/tarefas")
 @SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Tarefas", description = "Gerenciamento das tarefas do usuário")
 public class TarefaController {
 
     private final TarefaService tarefaService;

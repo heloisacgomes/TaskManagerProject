@@ -12,14 +12,16 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+@Tag(name = "Autenticação", description = "Cadastro e autenticação de usuários")
+public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    public AuthController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
