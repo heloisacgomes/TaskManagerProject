@@ -1,12 +1,14 @@
 package com.mycompany.controller;
 
-import com.mycompany.dao.TaskDAO;
-import com.mycompany.model.Task;
+import com.mycompany.api.TarefaApiService;
+import com.mycompany.taskmanager.dto.TarefaRequestDTO;
+import com.mycompany.taskmanager.dto.TarefaResponseDTO;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.CheckBox;
 
 public class TelaCadastroController {
 
@@ -14,69 +16,156 @@ public class TelaCadastroController {
     private TextField txtTitulo;
 
     @FXML
-    
     private TextArea txtDescricao;
-    private final TaskDAO dao = new TaskDAO();
-    private Task tarefaEditando;
-    private TelaListagemController telaListagemController;
-    
+
     @FXML
     private CheckBox chkConcluida;
 
-public void setTelaListagemController(
-        TelaListagemController controller) {
+    private final TarefaApiService tarefaApiService =
+            new TarefaApiService();
 
-    this.telaListagemController = controller;
-}
+    private TarefaResponseDTO tarefaEditando;
 
-   @FXML
-public void salvar() {
+    private TelaListagemController telaListagemController;
 
-    Task task;
+    public void setTelaListagemController(
+            TelaListagemController controller) {
 
-    if (tarefaEditando == null) {
-
-        task = new Task();
-
-    } else {
-
-        task = tarefaEditando;
+        this.telaListagemController = controller;
     }
 
-    task.setTitulo(txtTitulo.getText());
-    task.setDescricao(txtDescricao.getText());
-    task.setConcluida(
-        chkConcluida.isSelected()
-);
+    @FXML
+    public void salvar() {
 
-    if (tarefaEditando == null) {
+        String titulo = txtTitulo.getText();
 
-        dao.salvar(task);
+        if (titulo == null || titulo.trim().isEmpty()) {
 
-    } else {
+            mostrarAviso(
+                    "Informe o título da tarefa"
+            );
 
-        dao.atualizar(task);
+            return;
+        }
+
+        try {
+
+            TarefaRequestDTO dto =
+                    new TarefaRequestDTO();
+
+            dto.setTitulo(
+                    titulo.trim()
+            );
+
+            dto.setDescricao(
+                    txtDescricao.getText()
+            );
+
+            dto.setPrioridade(
+                    tarefaEditando != null
+                            ? tarefaEditando.getPrioridade()
+                            : "MEDIA"
+            );
+
+            dto.setConcluida(
+                    chkConcluida.isSelected()
+            );
+
+            if (tarefaEditando == null) {
+
+                tarefaApiService.criar(dto);
+
+            } else {
+
+                tarefaApiService.atualizar(
+                        tarefaEditando.getId(),
+                        dto
+                );
+            }
+
+            if (telaListagemController != null) {
+
+                telaListagemController
+                        .atualizarLista();
+            }
+
+            fecharJanela();
+
+        } catch (Exception e) {
+
+            mostrarErro(
+                    "Não foi possível salvar a tarefa",
+                    e
+            );
+        }
     }
 
-    if (telaListagemController != null) {
-        telaListagemController.atualizarLista();
+    public void carregarTarefa(
+            TarefaResponseDTO tarefa) {
+
+        this.tarefaEditando = tarefa;
+
+        txtTitulo.setText(
+                tarefa.getTitulo()
+        );
+
+        txtDescricao.setText(
+                tarefa.getDescricao()
+        );
+
+        chkConcluida.setSelected(
+                tarefa.isConcluida()
+        );
     }
 
-    Stage stage =
-            (Stage) txtTitulo.getScene().getWindow();
+    private void fecharJanela() {
 
-    stage.close();
-}
-    
-public void carregarTarefa(Task task) {
+        Stage stage =
+                (Stage) txtTitulo
+                        .getScene()
+                        .getWindow();
 
-    this.tarefaEditando = task;
+        stage.close();
+    }
 
-    txtTitulo.setText(task.getTitulo());
-    txtDescricao.setText(task.getDescricao());
-    chkConcluida.setSelected(
-        task.isConcluida()
-);
-}
+    private void mostrarAviso(
+            String mensagem) {
+
+        Alert alert =
+                new Alert(
+                        Alert.AlertType.WARNING
+                );
+
+        alert.setTitle("Atenção");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
+    private void mostrarErro(
+            String mensagem,
+            Exception e) {
+
+        Alert alert =
+                new Alert(
+                        Alert.AlertType.ERROR
+                );
+
+        alert.setTitle("Erro");
+        alert.setHeaderText(mensagem);
+
+        String detalhe =
+                e.getMessage();
+
+        if (detalhe == null
+                || detalhe.isBlank()) {
+
+            detalhe =
+                    "Ocorreu um erro inesperado";
+        }
+
+        alert.setContentText(detalhe);
+        alert.showAndWait();
+    }
 }
 

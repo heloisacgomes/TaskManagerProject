@@ -1,5 +1,5 @@
 target/
-
-src/main/resources/config.propertiessrc/main/resources/config.properties
-
-
+.DS_Store
+**/.DS_Store
+src/main/resources/config.properties
+src/main/resources/application.properties

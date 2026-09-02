@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.app;
 
 import javafx.application.Application;
@@ -15,15 +11,31 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader =
-                new FXMLLoader(getClass().getResource("/TelaListagem.fxml"));
+                new FXMLLoader(
+                        getClass()
+                                .getResource(
+                                        "/TelaLogin.fxml"
+                                )
+                );
 
-        Scene scene = new Scene(loader.load());
+        Scene scene =
+                new Scene(
+                        loader.load()
+                );
 
-        stage.setTitle("To Do - O que faremos hoje?");
-        stage.setScene(scene);
+        stage.setTitle(
+                "To do - O que faremos hoje?"
+        );
+
+        stage.setScene(
+                scene
+        );
+
         stage.show();
     }
+
     public static void main(String[] args) {
-    launch();
-}
+
+        launch(args);
+    }
 }
